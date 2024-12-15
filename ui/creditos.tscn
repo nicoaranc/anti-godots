@@ -1,0 +1,201 @@
+[gd_scene load_steps=19 format=3 uid="uid://bjjyd2hxy5u1p"]
+
+[ext_resource type="Texture2D" uid="uid://c436wbvdsdp2e" path="res://assets/StoneWall_TXR.png" id="1_agx7p"]
+[ext_resource type="Script" path="res://scripts/creditos.gd" id="1_fsqic"]
+[ext_resource type="Texture2D" uid="uid://d2rqm17q1gei3" path="res://assets/Foozle_2DS0011_Void_MainShip/Foozle_2DS0011_Void_MainShip/Main Ship/Main Ship - Bases/PNGs/Main Ship - Base - Damaged.png" id="2_3p58j"]
+[ext_resource type="Texture2D" uid="uid://c0h3uorem865n" path="res://assets/Foozle_2DS0011_Void_MainShip/Foozle_2DS0011_Void_MainShip/Main Ship/Main Ship - Engine Effects/PNGs/Main Ship - Engines - Base Engine - Spritesheet.png" id="3_eyb25"]
+[ext_resource type="Texture2D" uid="uid://brekt4ahqmmri" path="res://assets/Foozle_2DS0011_Void_MainShip/Foozle_2DS0011_Void_MainShip/Main Ship/Main Ship - Weapons/PNGs/Main Ship - Weapons - Big Space Gun.png" id="4_npaxq"]
+[ext_resource type="AudioStream" uid="uid://dtxht35fka40" path="res://assets/SFX/Balloon Pop 1.wav" id="5_kk6ts"]
+
+[sub_resource type="Animation" id="Animation_ious5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/Sprites/Base/Engines:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_k7chf"]
+resource_name = "idle_cr"
+length = 1.7
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/Sprites/Base/Engines:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fgou6"]
+_data = {
+"RESET": SubResource("Animation_ious5"),
+"idle_cr": SubResource("Animation_k7chf")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qtq6j"]
+animation = &"idle_cr"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pnvif"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_66oca"]
+states/Start/position = Vector2(193, 100)
+states/idle_cr/node = SubResource("AnimationNodeAnimation_qtq6j")
+states/idle_cr/position = Vector2(406, 58)
+transitions = ["Start", "idle_cr", SubResource("AnimationNodeStateMachineTransition_pnvif")]
+
+[sub_resource type="Animation" id="Animation_mu3ii"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/Sprites/Base/Engines/Weapon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_01yb7"]
+resource_name = "shoot_cr"
+length = 1.2
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/Sprites/Base/Engines/Weapon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a2f13"]
+_data = {
+"RESET": SubResource("Animation_mu3ii"),
+"shoot_cr": SubResource("Animation_01yb7")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m6lvg"]
+animation = &"shoot_cr"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rjy54"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_jdm6u"]
+states/shoot_cr/node = SubResource("AnimationNodeAnimation_m6lvg")
+states/shoot_cr/position = Vector2(425, 55)
+transitions = ["Start", "shoot_cr", SubResource("AnimationNodeStateMachineTransition_rjy54")]
+
+[node name="Creditos" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fsqic")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -171.0
+offset_top = -67.0
+offset_right = 171.0
+offset_bottom = 67.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Creador: (Yo) Nicolás Arancibia"
+
+[node name="Fuente" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Fuente: @managore (X)"
+horizontal_alignment = 1
+
+[node name="Muralla" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Guardian (itch.io)    "
+horizontal_alignment = 2
+
+[node name="Wall" type="Sprite2D" parent="VBoxContainer/Muralla"]
+position = Vector2(102, 21)
+scale = Vector2(0.0593262, 0.029541)
+texture = ExtResource("1_agx7p")
+
+[node name="Sprites" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "@FoozleCC (X)       "
+horizontal_alignment = 2
+
+[node name="Base" type="Sprite2D" parent="VBoxContainer/Sprites"]
+position = Vector2(81, 22)
+rotation = 1.5708
+texture = ExtResource("2_3p58j")
+
+[node name="Engines" type="Sprite2D" parent="VBoxContainer/Sprites/Base"]
+position = Vector2(0, 3)
+texture = ExtResource("3_eyb25")
+hframes = 4
+vframes = 2
+
+[node name="Weapon" type="Sprite2D" parent="VBoxContainer/Sprites/Base/Engines"]
+position = Vector2(-0.000152588, -43)
+texture = ExtResource("4_npaxq")
+hframes = 12
+
+[node name="SFX" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "SFX: @JDWasabi (X)"
+
+[node name="Volver" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Volver"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fgou6")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_66oca")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_a2f13")
+}
+
+[node name="AnimationTree2" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_jdm6u")
+anim_player = NodePath("../AnimationPlayer2")
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_kk6ts")

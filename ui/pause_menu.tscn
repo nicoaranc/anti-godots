@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1dwr83ycyg4a"]
+
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_mlkpd"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mlkpd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.5
+offset_top = -138.5
+offset_right = 240.5
+offset_bottom = 138.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Menú de pausa"
+horizontal_alignment = 1
+
+[node name="Continuar" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Continuar"
+
+[node name="Reiniciar" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Reiniciar"
+
+[node name="MainMenu" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Volver al menú principal"
+
+[node name="Salir" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Salir del juego"

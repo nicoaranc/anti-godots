@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://ceqyftw2lvucd"]
+
+[ext_resource type="Theme" uid="uid://cu4eddfng4k8b" path="res://resources/new_theme.tres" id="1_32j7s"]
+[ext_resource type="Script" path="res://scripts/menu.gd" id="2_w6f4i"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_32j7s")
+script = ExtResource("2_w6f4i")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -206.5
+offset_top = -122.0
+offset_right = 206.5
+offset_bottom = 122.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_group_ = true
+
+[node name="Titulo" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "ANTI-GODOTS"
+horizontal_alignment = 1
+
+[node name="Empezar" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Comenzar"
+
+[node name="Creditos" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Créditos"
+
+[node name="Salir" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Salir del juego"

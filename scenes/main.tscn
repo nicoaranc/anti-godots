@@ -1,0 +1,309 @@
+[gd_scene load_steps=18 format=3 uid="uid://cexejhdsk2wvy"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_eann7"]
+[ext_resource type="PackedScene" uid="uid://l8vob4q20lo" path="res://scenes/player.tscn" id="2_7nrci"]
+[ext_resource type="PackedScene" uid="uid://d2yetqq1shtad" path="res://scenes/enemy.tscn" id="3_pj8vy"]
+[ext_resource type="Script" path="res://scripts/path_follow.gd" id="4_u6beb"]
+[ext_resource type="Script" path="res://scripts/defense.gd" id="5_8w5h6"]
+[ext_resource type="Texture2D" uid="uid://c436wbvdsdp2e" path="res://assets/StoneWall_TXR.png" id="5_q5g83"]
+[ext_resource type="Texture2D" uid="uid://drwiu2kra0mc6" path="res://icon.svg" id="5_xewu6"]
+[ext_resource type="AudioStream" uid="uid://dwn2vorotbeha" path="res://assets/SFX/Hit damage 1.wav" id="8_rjr4k"]
+[ext_resource type="PackedScene" uid="uid://c1dwr83ycyg4a" path="res://ui/pause_menu.tscn" id="9_xlaja"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xwgos"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o00yr"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_226b5"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_fp0en"]
+normal = Vector2(1, 0)
+
+[sub_resource type="Curve2D" id="Curve2D_w66ny"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 963, 551, 0, 0, 0, 0, 963, 390, 0, 0, 0, 0, 963, 600, 0, 0, 0, 0, 963, 551)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_qndj7"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 963, 110, 0, 0, 0, 0, 963, 271, 0, 0, 0, 0, 963, 61, 0, 0, 0, 0, 963, 110)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_rhqay"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, -163.034, 803, 333, 0, 0, -162.862, -0.109101, 640, 171, 0, 0, 0, 160.362, 477, 333, 0, 0, 163.148, -0.223479, 640, 495, 0, 0, 0, 0, 803, 333)
+}
+point_count = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wcnqx"]
+size = Vector2(60, 48)
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_eann7")
+
+[node name="WallContainer" type="StaticBody2D" parent="."]
+
+[node name="Piso" type="CollisionShape2D" parent="WallContainer"]
+position = Vector2(572, 649)
+shape = SubResource("WorldBoundaryShape2D_xwgos")
+
+[node name="Techo" type="CollisionShape2D" parent="WallContainer"]
+position = Vector2(573, 0)
+shape = SubResource("WorldBoundaryShape2D_o00yr")
+
+[node name="WallRight" type="CollisionShape2D" parent="WallContainer"]
+position = Vector2(1152, 319)
+shape = SubResource("WorldBoundaryShape2D_226b5")
+
+[node name="WallLeft" type="CollisionShape2D" parent="WallContainer"]
+position = Vector2(0, 340)
+shape = SubResource("WorldBoundaryShape2D_fp0en")
+
+[node name="Player" parent="." instance=ExtResource("2_7nrci")]
+position = Vector2(56, 334)
+
+[node name="FrontLowerPath" type="Path2D" parent="."]
+position = Vector2(-102, 2)
+curve = SubResource("Curve2D_w66ny")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="FrontLowerPath"]
+position = Vector2(963, 433.4)
+rotation = -1.5708
+progress = 117.6
+rotates = false
+cubic_interp = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="FrontLowerPath/PathFollow2D" instance=ExtResource("3_pj8vy")]
+rotation = 1.5708
+
+[node name="MidLowerPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_w66ny")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="MidLowerPath"]
+position = Vector2(963, 500.6)
+rotation = -1.5708
+progress = 50.4
+rotates = false
+cubic_interp = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="MidLowerPath/PathFollow2D" instance=ExtResource("3_pj8vy")]
+rotation = 1.5708
+
+[node name="BackLowerPath" type="Path2D" parent="."]
+position = Vector2(106, 1)
+curve = SubResource("Curve2D_w66ny")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="BackLowerPath"]
+position = Vector2(963, 551)
+rotation = -1.5708
+rotates = false
+cubic_interp = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="BackLowerPath/PathFollow2D" instance=ExtResource("3_pj8vy")]
+rotation = 1.5708
+
+[node name="FrontHigherPath" type="Path2D" parent="."]
+position = Vector2(-101, 1)
+curve = SubResource("Curve2D_qndj7")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="FrontHigherPath"]
+position = Vector2(963, 227.605)
+rotation = 1.5708
+progress = 117.6
+rotates = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="FrontHigherPath/PathFollow2D" instance=ExtResource("3_pj8vy")]
+rotation = -1.5708
+
+[node name="MidHigherPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_qndj7")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="MidHigherPath"]
+position = Vector2(963, 160.396)
+rotation = 1.5708
+progress = 50.4
+rotates = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="MidHigherPath/PathFollow2D" instance=ExtResource("3_pj8vy")]
+rotation = -1.5708
+
+[node name="BackHigherPath" type="Path2D" parent="."]
+position = Vector2(104, 2)
+curve = SubResource("Curve2D_qndj7")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="BackHigherPath"]
+position = Vector2(963, 110)
+rotation = 1.5708
+rotates = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="BackHigherPath/PathFollow2D" instance=ExtResource("3_pj8vy")]
+rotation = -1.5708
+
+[node name="CirclePath" type="Path2D" parent="."]
+position = Vector2(-59, -15)
+curve = SubResource("Curve2D_rhqay")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="CirclePath"]
+position = Vector2(803, 333)
+rotation = -1.5708
+rotates = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="CirclePath/PathFollow2D" instance=ExtResource("3_pj8vy")]
+position = Vector2(7.62939e-06, -1.94707e-07)
+rotation = 1.5708
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="CirclePath"]
+position = Vector2(640.5, 171.001)
+rotation = -1.5708
+progress = 257.729
+rotates = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="CirclePath/PathFollow2D2" instance=ExtResource("3_pj8vy")]
+position = Vector2(-4.37114e-08, 0)
+rotation = 1.5708
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="CirclePath"]
+position = Vector2(477.004, 332.458)
+rotation = -1.5708
+progress = 515.457
+rotates = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="CirclePath/PathFollow2D3" instance=ExtResource("3_pj8vy")]
+position = Vector2(1.01717e-06, 0)
+rotation = 1.5708
+
+[node name="PathFollow2D4" type="PathFollow2D" parent="CirclePath"]
+position = Vector2(640.016, 495)
+rotation = -1.5708
+progress = 773.186
+rotates = false
+script = ExtResource("4_u6beb")
+
+[node name="Enemy" parent="CirclePath/PathFollow2D4" instance=ExtResource("3_pj8vy")]
+position = Vector2(0, -2.86102e-06)
+rotation = 1.5708
+
+[node name="Obstacle1" type="Area2D" parent="."]
+position = Vector2(738, 76)
+collision_layer = 33
+collision_mask = 25
+script = ExtResource("5_8w5h6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle1"]
+shape = SubResource("RectangleShape2D_wcnqx")
+
+[node name="Sprite2D" type="Sprite2D" parent="Obstacle1"]
+position = Vector2(-3.05176e-05, -2.14577e-06)
+scale = Vector2(0.0585937, 0.046875)
+texture = ExtResource("5_q5g83")
+
+[node name="Obstacle2" type="Area2D" parent="."]
+position = Vector2(741, 586)
+collision_layer = 33
+collision_mask = 25
+script = ExtResource("5_8w5h6")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Obstacle2"]
+shape = SubResource("RectangleShape2D_wcnqx")
+
+[node name="Sprite2D" type="Sprite2D" parent="Obstacle2"]
+position = Vector2(-3.51369e-05, 1.07288e-06)
+scale = Vector2(0.0585937, 0.046875)
+texture = ExtResource("5_q5g83")
+
+[node name="Defense1" type="Area2D" parent="."]
+position = Vector2(253, 492)
+collision_layer = 33
+collision_mask = 25
+script = ExtResource("5_8w5h6")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Defense1"]
+position = Vector2(-43, -5)
+scale = Vector2(1.5747, 1.5625)
+polygon = PackedVector2Array(11, -12, 37, -12, 52, 3, 37, 18, 11, 18)
+
+[node name="Sprite2D" type="Sprite2D" parent="Defense1"]
+position = Vector2(6.50002, 10.5)
+scale = Vector2(0.336482, 0.282185)
+skew = 0.806342
+texture = ExtResource("5_xewu6")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Defense1"]
+position = Vector2(6.82597, -11.9548)
+scale = Vector2(0.315959, 0.272415)
+skew = -0.808087
+texture = ExtResource("5_xewu6")
+
+[node name="Defense2" type="Area2D" parent="."]
+position = Vector2(207, 337)
+collision_layer = 33
+collision_mask = 25
+script = ExtResource("5_8w5h6")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Defense2"]
+position = Vector2(-43, -5)
+scale = Vector2(1.5747, 1.5625)
+polygon = PackedVector2Array(11, -12, 37, -12, 52, 3, 37, 18, 11, 18)
+
+[node name="Sprite2D" type="Sprite2D" parent="Defense2"]
+position = Vector2(6.50002, 10.5)
+scale = Vector2(0.336482, 0.282185)
+skew = 0.806342
+texture = ExtResource("5_xewu6")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Defense2"]
+position = Vector2(6.82597, -11.9548)
+scale = Vector2(0.315959, 0.272415)
+skew = -0.808087
+texture = ExtResource("5_xewu6")
+
+[node name="Defense3" type="Area2D" parent="."]
+position = Vector2(252, 173)
+collision_layer = 33
+collision_mask = 25
+script = ExtResource("5_8w5h6")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Defense3"]
+position = Vector2(-43, -5)
+scale = Vector2(1.5747, 1.5625)
+polygon = PackedVector2Array(11, -12, 37, -12, 52, 3, 37, 18, 11, 18)
+
+[node name="Sprite2D" type="Sprite2D" parent="Defense3"]
+position = Vector2(6.50002, 10.5)
+scale = Vector2(0.336482, 0.282185)
+skew = 0.806342
+texture = ExtResource("5_xewu6")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Defense3"]
+position = Vector2(6.82597, -11.9548)
+scale = Vector2(0.315959, 0.272415)
+skew = -0.808087
+texture = ExtResource("5_xewu6")
+
+[node name="DeathSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_rjr4k")
+
+[node name="PauseMenu" parent="." instance=ExtResource("9_xlaja")]
+visible = false
+anchors_preset = 4
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 580.0
+offset_top = 345.0
+offset_right = 580.0
+offset_bottom = 345.0
+grow_horizontal = 1

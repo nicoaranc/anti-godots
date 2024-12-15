@@ -1,0 +1,191 @@
+[gd_scene load_steps=23 format=3 uid="uid://l8vob4q20lo"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_tlk2l"]
+[ext_resource type="Texture2D" uid="uid://d2rqm17q1gei3" path="res://assets/Foozle_2DS0011_Void_MainShip/Foozle_2DS0011_Void_MainShip/Main Ship/Main Ship - Bases/PNGs/Main Ship - Base - Damaged.png" id="2_de55d"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="3_2tp58"]
+[ext_resource type="Texture2D" uid="uid://brekt4ahqmmri" path="res://assets/Foozle_2DS0011_Void_MainShip/Foozle_2DS0011_Void_MainShip/Main Ship/Main Ship - Weapons/PNGs/Main Ship - Weapons - Big Space Gun.png" id="3_yvg4q"]
+[ext_resource type="Texture2D" uid="uid://c0h3uorem865n" path="res://assets/Foozle_2DS0011_Void_MainShip/Foozle_2DS0011_Void_MainShip/Main Ship/Main Ship - Engine Effects/PNGs/Main Ship - Engines - Base Engine - Spritesheet.png" id="4_fn6e3"]
+[ext_resource type="AudioStream" uid="uid://dtxht35fka40" path="res://assets/SFX/Balloon Pop 1.wav" id="6_6iq3r"]
+
+[sub_resource type="Animation" id="Animation_8ylsw"]
+length = 0.001
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Weapon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Engines:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_qu7h3"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Engines:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_sk2jg"]
+resource_name = "move"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Engines:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_2yllk"]
+resource_name = "shoot"
+length = 0.38
+step = 0.03
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Weapon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18, 0.21, 0.24, 0.27, 0.3, 0.33, 0.36),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1uxkh"]
+_data = {
+"RESET": SubResource("Animation_8ylsw"),
+"idle": SubResource("Animation_qu7h3"),
+"move": SubResource("Animation_sk2jg"),
+"shoot": SubResource("Animation_2yllk")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rlfrc"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bjptj"]
+animation = &"move"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8oc2t"]
+animation = &"shoot"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ffk34"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o0d6d"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bfwjv"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mh0ar"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vdglj"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2f3lq"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u41f2"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bfod1"]
+states/End/position = Vector2(951, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_rlfrc")
+states/idle/position = Vector2(351, 46)
+states/move/node = SubResource("AnimationNodeAnimation_bjptj")
+states/move/position = Vector2(504, 42)
+states/shoot/node = SubResource("AnimationNodeAnimation_8oc2t")
+states/shoot/position = Vector2(432, 178)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_ffk34"), "idle", "shoot", SubResource("AnimationNodeStateMachineTransition_o0d6d"), "idle", "move", SubResource("AnimationNodeStateMachineTransition_bfwjv"), "shoot", "idle", SubResource("AnimationNodeStateMachineTransition_mh0ar"), "move", "idle", SubResource("AnimationNodeStateMachineTransition_vdglj"), "move", "shoot", SubResource("AnimationNodeStateMachineTransition_2f3lq"), "shoot", "move", SubResource("AnimationNodeStateMachineTransition_u41f2")]
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 17
+script = ExtResource("1_tlk2l")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-0.215653, 0.542039)
+scale = Vector2(3.41045, 2.99421)
+polygon = PackedVector2Array(-8.4058, -10.0165, -3.77915, -10.0165, 3.70957, -3.81324, 5.38807, -3.81324, 9.95016, -1.41551, 9.97168, 1.48816, 5.36655, 3.7319, 3.81716, 3.7319, -3.80067, 10.0012, -8.55643, 10.0012, -8.55643, 8.37338, -6.25387, 4.03987, -6.25387, 2.36806, -9.99823, 2.36806, -9.95519, -2.4494, -6.18931, -2.4494, -6.18931, -4.2092, -8.62099, -8.58669, -8.62099, -10.0165)
+
+[node name="Spaceship" type="Sprite2D" parent="."]
+rotation = 1.57038
+scale = Vector2(1.94313, 2.52428)
+texture = ExtResource("2_de55d")
+
+[node name="Weapon" type="Sprite2D" parent="."]
+position = Vector2(47, 0)
+rotation = 1.5708
+scale = Vector2(0.992577, 1.04944)
+texture = ExtResource("3_yvg4q")
+hframes = 12
+
+[node name="Engines" type="Sprite2D" parent="."]
+position = Vector2(-11.136, 0)
+rotation = 1.5708
+scale = Vector2(2.421, 2.524)
+texture = ExtResource("4_fn6e3")
+hframes = 4
+vframes = 2
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(78.7099, 0)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("3_2tp58")
+
+[node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Hurtbox"]
+position = Vector2(-0.215653, 0.542039)
+scale = Vector2(3.41045, 2.99421)
+polygon = PackedVector2Array(-8.4058, -10.0165, -3.77915, -10.0165, 3.70957, -3.81324, 5.38807, -3.81324, 9.95016, -1.41551, 9.97168, 1.48816, 5.36655, 3.7319, 3.81716, 3.7319, -3.80067, 10.0012, -8.55643, 10.0012, -8.55643, 8.37338, -6.25387, 4.03987, -6.25387, 2.36806, -9.99823, 2.36806, -9.95519, -2.4494, -6.18931, -2.4494, -6.18931, -4.2092, -8.62099, -8.58669, -8.62099, -10.0165)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_1uxkh")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_bfod1")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 0.6
+one_shot = true
+
+[node name="ShootSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_6iq3r")
